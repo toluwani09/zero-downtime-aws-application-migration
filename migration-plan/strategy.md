@@ -1,35 +1,45 @@
-# Migration Strategy — Zero-Downtime Production Migration
+# Migration Strategy — Zero-Downtime Application Migration Using AWS MGN
 
-## Objectives
-- Move application server to AWS without downtime
-- Ensure service availability and integrity
-- Minimize operational risk
+## Overview
+This document outlines the step-by-step migration strategy executed using **AWS MGN**, ensuring zero downtime and production-grade reliability.
 
-## Phases
+---
 
-### 1. Environment Preparation
-- Provision AWS EC2 instance
-- Configure networking (VPC, subnet, security groups)
-- Validate connectivity and permissions
-- Harden server access
+## Phase 1 — Environment Preparation
+- Provision AWS target environment: VPC, subnets, security groups  
+- Harden access policies and validate connectivity  
+- Configure IAM roles for MGN replication  
 
-### 2. Data and Application Replication
-- Transfer application files and dependencies
-- Match runtime environment configuration
-- Test locally on target instance
+---
 
-### 3. Pre-Cutover Validation
-- Health checks on application
-- Log inspection for errors
-- Resource monitoring (CPU, memory, latency)
+## Phase 2 — Data and Application Replication
+- Install **AWS MGN replication agent** on source server  
+- Enable continuous replication from source server to AWS  
+- Launch **test instances** via MGN for validation  
+- Ensure runtime environment matches source server (OS, dependencies, configuration)  
+- Monitor replication status in MGN console  
 
-### 4. Controlled Cutover
-- Adjust DNS or traffic routing
-- Observe system behavior under live traffic
-- Monitor logs and metrics in real time
+---
 
-## Key Engineering Principles
-- Zero-downtime deployment methodology
-- Incremental validation before switching production
-- Clear rollback plan in case of issues
+## Phase 3 — Pre-Cutover Validation
+- Verify application functionality on test instances  
+- Inspect system logs for errors  
+- Monitor CPU, memory, disk, and network utilization via CloudWatch  
+- Test security groups and access controls  
+- Confirm MGN replication is consistent and fully synchronized  
 
+---
+
+## Phase 4 — Controlled Cutover
+- Launch final **cutover instance** via AWS MGN  
+- Redirect production traffic (DNS update) to the new instance  
+- Monitor metrics and logs in real-time  
+- Confirm application is fully operational under live traffic  
+
+---
+
+## Phase 5 — Post-Migration
+- Validate user accessibility and application performance  
+- Review CloudWatch dashboards for anomalies  
+- Capture screenshots for GitHub documentation  
+- Document lessons learned for continuous improvement  
