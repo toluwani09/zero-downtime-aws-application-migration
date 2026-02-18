@@ -3,7 +3,7 @@
 ## Overview
 The AWS architecture was implemented to host the migrated application server from on-premises with **zero downtime**. AWS MGN enabled continuous replication, test instance validation, and a seamless cutover. The design prioritized security, reliability, and operational observability.
 
----
+----
 
 ## Components Implemented
 
