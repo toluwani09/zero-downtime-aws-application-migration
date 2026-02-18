@@ -1,65 +1,63 @@
-# Architecture Documentation — Zero-Downtime Application Migration (AWS MGN)
+# Architecture Documentation — Zero-Downtime Migration Using AWS MGN
 
 ## Overview
-This architecture represents the target AWS environment for a live production application migration using **AWS MGN**. The design prioritizes:
-
-- Zero downtime during migration
-- Secure and least-privilege access
-- Observability and monitoring
-- Scalability for future expansion
+The AWS architecture was implemented to host the migrated application server from on-premises with **zero downtime**. AWS MGN enabled continuous replication, test instance validation, and a seamless cutover. The design prioritized security, reliability, and operational observability.
 
 ---
 
-## Components
+## Components Implemented
 
 ### 1. EC2 Target Instance
-- **Purpose:** Hosts the migrated application server launched via MGN cutover  
-- **Configuration:** Matches source OS and runtime environment  
-- **Security:** Enforced via security groups allowing only necessary ports  
-- **Justification:** Provides isolated compute environment, easily integrated with AWS networking and monitoring services  
+- **Deployment:** Launched via **AWS MGN cutover**  
+- **Configuration:** Matched source server OS, runtime environment, and dependencies  
+- **Security:** Controlled via security groups allowing only necessary ports  
+- **Outcome:** Fully operational production instance after migration  
 
 ### 2. VPC & Subnets
-- **Purpose:** Logical isolation of the migrated application  
-- **Configuration:** Public subnet for EC2 access; optional private subnet for future services  
-- **Justification:** Network segmentation improves security and reduces attack surface  
+- **Implementation:** Single public subnet for EC2 access, private subnet for future expansion  
+- **Outcome:** Network isolation and secure traffic routing  
 
 ### 3. Security Groups
-- **Purpose:** Control inbound and outbound traffic  
-- **Rules Implemented:** 
-  - Allow HTTP/HTTPS from users or load balancer  
-  - Allow SSH from admin IP only  
-- **Justification:** Principle of least privilege; protects instance from unauthorized access  
+- **Rules Implemented:**  
+  - Allow HTTP/HTTPS from users  
+  - Allow SSH only from admin IP  
+- **Outcome:** Least-privilege access enforced; no unauthorized traffic observed  
 
 ### 4. Monitoring Layer
-- **Purpose:** Real-time visibility into system health and performance  
-- **Tools:** Amazon CloudWatch for metrics, logs, and alarms  
-- **Justification:** Ensures early detection of issues during cutover and post-migration  
+- **Tool Used:** Amazon CloudWatch  
+- **Metrics Tracked:** CPU, memory, disk, network, latency  
+- **Outcome:** Continuous monitoring of test and cutover instances ensured performance stability  
 
 ### 5. DNS / Traffic Cutover
-- **Purpose:** Redirect production traffic to the AWS instance after validation  
-- **Implementation:** Adjust DNS records after final health checks  
-- **Justification:** Enables controlled cutover, supporting zero-downtime migration  
+- **Implementation:** Redirected production traffic post-validation  
+- **Outcome:** Zero downtime observed during traffic switch  
 
-### 6. AWS MGN (Application Migration Service)
-- **Purpose:** Continuous replication of the source server to AWS  
-- **Configuration:** Replication enabled for the source server; test and cutover instances defined  
-- **Justification:** Ensures zero-downtime migration, simplifies cutover, and provides validation checkpoints before production traffic  
+### 6. AWS MGN
+- **Role:** Continuous replication of the source server  
+- **Test Instances:** Launched to validate functionality and configuration  
+- **Cutover Instance:** Final production instance launched successfully  
+- **Outcome:** Migration executed seamlessly; replication status confirmed in MGN console  
 
 ---
 
 ## Workflow / Data Flow
-
-1. Users send requests to the application  
-2. Traffic initially reaches the source server  
-3. AWS MGN continuously replicates the source server to AWS  
-4. Test instances are launched via MGN for pre-cutover validation  
-5. After final validation, production traffic routes to AWS EC2 instance launched by MGN  
-6. Monitoring collects metrics and logs for validation  
-7. Security groups filter traffic for authorized access only  
+1. Users initially accessed the on-premises source server  
+2. **AWS MGN continuously replicated** the server to AWS  
+3. Test instance launched for validation  
+4. Cutover instance launched and production traffic redirected  
+5. CloudWatch monitored metrics; security groups enforced access rules  
 
 ---
 
-## Security Considerations
-- **Least-Privilege Access:** Admin accounts and SSH access limited by IP  
-- **Network Isolation:** Only necessary ports open; no wide network exposure  
-- **Monitoring & Logging:** All traffic and system events are logged for auditing  
+## Security & Compliance
+- Least-privilege access enforced  
+- Only necessary ports open  
+- Logging and monitoring enabled for auditing  
+
+---
+
+## Future Enhancements
+- Multi-AZ deployment for redundancy  
+- Load balancer integration for high availability  
+- Auto-scaling configuration  
+- Infrastructure as Code for repeatable deployments  
