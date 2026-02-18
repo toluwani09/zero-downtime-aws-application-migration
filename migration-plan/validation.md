@@ -1,20 +1,19 @@
-# Migration Validation — AWS MGN
+# Migration Validation — AWS MGN (Production)
 
-## Pre-Cutover Tests
-- Application response tests (HTTP/HTTPS requests)  
-- Log inspection for errors and warnings  
-- CPU, Memory, Disk utilization monitoring via CloudWatch  
-- Security verification: test inbound/outbound rules and access control  
-- **Verify AWS MGN replication status** and ensure test instance is fully functional  
+## Pre-Cutover Validation
+- Application endpoints tested (HTTP/HTTPS) on test instance  
+- Logs reviewed for errors or warnings  
+- CPU, memory, disk, and network utilization monitored via CloudWatch  
+- Security groups and access controls verified  
+- Test instance confirmed fully operational and synchronized with source server  
 
 ## Cutover Validation
-- Confirm final MGN-launched cutover instance is running correctly  
-- Test application endpoints under live traffic  
-- Monitor real-time metrics via CloudWatch  
-- Verify no downtime occurred during traffic switch  
+- Production EC2 instance launched via MGN confirmed fully operational  
+- DNS switch validated traffic routing to AWS instance  
+- CloudWatch dashboards confirmed stable CPU, memory, network, and latency under live traffic  
+- Application accessibility verified by users  
 
 ## Post-Migration Validation
-- Confirm all services are functional on AWS EC2 instance  
-- Review logs and metrics for stability  
-- Document validation outcomes in GitHub repository  
-- Screenshots from MGN console and CloudWatch dashboards saved for portfolio evidence  
+- Logs confirmed clean, no errors  
+- Metrics showed stable performance  
+- Screenshots captured from MGN console and CloudWatch for portfolio evidence  
