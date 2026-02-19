@@ -1,4 +1,4 @@
-🔹 README.md — Implementation-Focused Version (AWS MGN)
+
 # Zero-Downtime Production Application Migration to AWS Using AWS MGN
 
 ## Executive Summary
