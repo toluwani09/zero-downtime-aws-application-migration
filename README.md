@@ -59,14 +59,6 @@ All steps were performed in a production-like environment and verified for opera
 
 ---
 
-## Future Improvements
-- Multi-AZ deployment for redundancy  
-- Load balancer integration for high availability  
-- Automated scaling policies  
-- Infrastructure as Code for reproducible deployments  
-
----
-
 ## Author
 **Olalere Tolulope**  
 Cloud Engineer | Cloud Security | Solutions Architect  
